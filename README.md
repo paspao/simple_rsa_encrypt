@@ -2,9 +2,12 @@
 
 This module provides access to RSA public-key encryption and  private-key dencryption from OpenSSL.
 
+## Install
+
+	npm install simple_rsa_encrypt
 
 
-## Build
+## Build (from source)
 
 	node-gyp clean && node-gyp configure && node-gyp -v build
 
@@ -14,7 +17,7 @@ See test.js
 
 ```javascript
 
-var simple_rsa_encrypt = require("./build/Release/simple_rsa_encrypt.node");
+var simple_rsa_encrypt = require("simple_rsa_encrypt");
 
 
 var rsa=new simple_rsa_encrypt.RsaEncrypter();
