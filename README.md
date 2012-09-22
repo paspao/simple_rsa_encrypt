@@ -3,6 +3,10 @@ This module provides access to RSA public-key routines from OpenSSL.
 
 Support is limited to RSAES-OAEP and encryption with a public key, decryption with a private key.
 
+## Install
+
+	node-gyp clean && node-gyp configure && node-gyp -v build
+
 ## Usage
 
 See test.js
