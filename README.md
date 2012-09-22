@@ -1,6 +1,6 @@
 # simple\_rsa\_encrypt
 
-This module provides access to RSA public-key encryption and to RSA private-encryption from OpenSSL.
+This module provides access to RSA public-key encryption and  private-key dencryption from OpenSSL.
 
 
 
