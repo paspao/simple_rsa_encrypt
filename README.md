@@ -1,9 +1,10 @@
 # simple\_rsa\_encrypt
-This module provides access to RSA public-key routines from OpenSSL.
 
-Support is limited to RSAES-OAEP and encryption with a public key, decryption with a private key.
+This module provides access to RSA public-key encryption and to RSA private-encryption from OpenSSL.
 
-## Install
+
+
+## Build
 
 	node-gyp clean && node-gyp configure && node-gyp -v build
 
