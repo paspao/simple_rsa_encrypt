@@ -1,0 +1,7 @@
+{ "name" : "simple_rsa_encrypt"
+, "description" : "A simple rsa usage with public encryption and private dencryption"
+, "version" : "1.0.0"
+, "author" : "Pasquale Paola <pasquale.paola@gmail.com>"
+, "main" : "build/Release/simple_rsa_encrypt.node"
+, "scripts" : { "test" : "node test.js" }
+}
