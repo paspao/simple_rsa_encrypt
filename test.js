@@ -1,3 +1,4 @@
+var assert = require('assert');
 var simple_rsa_encrypt = require("./build/Release/simple_rsa_encrypt.node");
 
 
@@ -31,4 +32,6 @@ tQMVsY0MsC8Sy21y199wWQUBmAiV6rSuODrb8yQmYZ8w\n\
 -----END RSA PRIVATE KEY-----",encr);
 
 console.log("\nNode decrypted\n"+plainmesg);
+
+assert.equal(mesg,plainmesg);
 
