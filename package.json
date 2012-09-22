@@ -1,7 +1,21 @@
 { "name" : "simple_rsa_encrypt"
 , "description" : "A simple rsa usage with public encryption and private dencryption"
-, "version" : "1.0.0"
-, "author" : "Pasquale Paola <pasquale.paola@gmail.com>"
+, "version" : "v0.1.0"
+, "homepage" : "https://github.com/paspao/simple_rsa_encrypt"
+,"scripts" : {
+      "preinstall" : "node-gyp configure && node-gyp build"
+      , "preuninstall" : "rm -rf build/*"
+      ,"test" : "node test.js"
+    }
+, "author" : { 
+      "name" : "Pasquale Paola"
+      , "email" : "pasquale.paola@gmail.com"
+      , "url" : "http://www.linkedin.com/in/pasqualepaola"
+    } ,
+    "repository" : { 
+      "type" : "git"
+      , "url" : "https://github.com/paspao/simple_rsa_encrypt.git"
+    }
 , "main" : "build/Release/simple_rsa_encrypt.node"
-, "scripts" : { "test" : "node test.js" }
+
 }
