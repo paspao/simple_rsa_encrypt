@@ -1,4 +1,4 @@
-# simple\_rsa\_encrypt
+# simple\_rsa\_encrypt -  - [![Build Status](https://secure.travis-ci.org/paspao/simple_rsa_encrypt.png)](http://travis-ci.org/paspao/simple_rsa_encrypt)
 
 This module provides access to RSA public-key encryption and  private-key decryption from OpenSSL.
 
@@ -60,9 +60,10 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD0AFLLTkEOlTGvx9w/MEYr4Yji\n\
 c5uy6J1A/6zTIxjZwFfREvFOJIBElbXfmZeoE2zshIqn+krnxNJUJsVZd8SCjcgI\n\
 RxmFi5hMn6fL0GvrSo3MTs+xV18BmuR8XE6048tISoTfbPsFf6AxZhl3WJSOJj6k\n\
 mo6I41CWwiJF0HL6rQIDAQAB\n\
------END PUBLIC KEY-----",mesg,function(err,result){
+-----END PUBLIC KEY-----",
+	mesg,function(err,result){
 
-console.log('\nAsync Encrypt '+result);
+		console.log('\nAsync Encrypt '+result);
 
 rsa.decrypt("-----BEGIN RSA PRIVATE KEY-----\n\
 MIICXQIBAAKBgQD0AFLLTkEOlTGvx9w/MEYr4Yjic5uy6J1A/6zTIxjZwFfREvFO\n\
@@ -78,10 +79,12 @@ eVw1Sv2wSVhIJdEHTor6sMNoGKnOpWPxmG5gmVdlzTvd/rysP5LGn7z5PO7xAkA/\n\
 slH1YfAjIBS4GMGHblCsM26z9ruU7IDmodpS7DIdjqKVGvtKocprUeisMfLdSwuo\n\
 knYs/jsuwmmtw+xaRy/3AkB8ak0Fo/pcm9nvXNVDe5cK6Ku2cEqThihX5fjna8yi\n\
 tQMVsY0MsC8Sy21y199wWQUBmAiV6rSuODrb8yQmYZ8w\n\
------END RSA PRIVATE KEY-----",result,function(err,res){
-	console.log('\nAsync Decrypt '+res);
+-----END RSA PRIVATE KEY-----",
+	result,function(err,res){
 
-	assert.equal(mesg,res);
+		console.log('\nAsync Decrypt '+res);
+
+		assert.equal(mesg,res);
 });
 
 });

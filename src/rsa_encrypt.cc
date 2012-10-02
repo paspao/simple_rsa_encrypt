@@ -11,7 +11,7 @@ using namespace v8;
 void RsaEncrypter::Init(Handle<Object> target) {
   Local<FunctionTemplate> local_function_template = FunctionTemplate::New(New);
   s_ct = Persistent<FunctionTemplate>::New(local_function_template);
-  s_ct->InstanceTemplate()->SetInternalFieldCount(1); // 1 since a constructor function only references 1 object
+  s_ct->InstanceTemplate()->SetInternalFieldCount(1); 
   s_ct->SetClassName(String::NewSymbol("RsaEncrypter"));
 
   NODE_SET_PROTOTYPE_METHOD(s_ct, "encryptSync", EncryptSync);
@@ -101,14 +101,14 @@ Handle<Value> RsaEncrypter::EncryptAsync(const Arguments& args)
         return ThrowException(Exception::TypeError(
             String::New("Third argument must be a callback function")));
     }
-    // There's no ToFunction(), use a Cast instead.
+    
     Local<Function> callback = Local<Function>::Cast(args[2]);
 
     v8::String::Utf8Value publicKey(args[0]->ToString());
     v8::String::Utf8Value msg(args[1]->ToString());
-    // This creates our work request, including the libuv struct.
+    
     Baton* baton = new Baton();
-    baton->error = false;//******************************************
+    baton->error = false;
     baton->publicKey=(char*)malloc(sizeof(char)*publicKey.length());
     baton->mesgPlain=(char*)malloc(sizeof(char)*msg.length());
     
@@ -119,9 +119,6 @@ Handle<Value> RsaEncrypter::EncryptAsync(const Arguments& args)
     baton->request.data = baton;
     baton->callback = Persistent<Function>::New(callback);
 
-    // Schedule our work request with libuv. Here you can specify the functions
-    // that should be executed in the threadpool and back in the main thread
-    // after the threadpool function completed.
     int status = uv_queue_work(uv_default_loop(), &baton->request, EncryptAsyncWork, AfterEncryptAsync);
     assert(status == 0);
 
@@ -132,11 +129,6 @@ Handle<Value> RsaEncrypter::EncryptAsync(const Arguments& args)
 void RsaEncrypter::EncryptAsyncWork(uv_work_t* req)
   {
     Baton* baton = static_cast<Baton*>(req->data);
-
-    // Do work in threadpool here.
-    
-    
-    
     baton->mesgEncrypted =RsaEncrypter::encrypt(baton->publicKey, baton->mesgPlain,baton->size);
     #ifdef debug
     printf("Baton encrypted\n%s\n", baton->mesgEncrypted);
@@ -151,24 +143,17 @@ void RsaEncrypter::AfterEncryptAsync(uv_work_t* req)
     if (baton->error) {
         Local<Value> err = Exception::Error(String::New(baton->error_message));
 
-        // Prepare the parameters for the callback function.
+        
         const unsigned argc = 1;
         Local<Value> argv[argc] = { err };
 
-        // Wrap the callback function call in a TryCatch so that we can call
-        // node's FatalException afterwards. This makes it possible to catch
-        // the exception from JavaScript land using the
-        // process.on('uncaughtException') event.
+        
         TryCatch try_catch;
         baton->callback->Call(Context::GetCurrent()->Global(), argc, argv);
         if (try_catch.HasCaught()) {
             node::FatalException(try_catch);
         }
     } else {
-        // In case the operation succeeded, convention is to pass null as the
-        // first argument before the result arguments.
-        // In case you produced more complex data, this is the place to convert
-        // your plain C++ data structures into JavaScript/V8 data structures.
         
         Local<Value> outString=Encode(baton->mesgEncrypted, baton->size, BINARY);
         const unsigned argc = 2;
@@ -176,11 +161,7 @@ void RsaEncrypter::AfterEncryptAsync(uv_work_t* req)
             Local<Value>::New(Null()),
             outString
         };
-
-        // Wrap the callback function call in a TryCatch so that we can call
-        // node's FatalException afterwards. This makes it possible to catch
-        // the exception from JavaScript land using the
-        // process.on('uncaughtException') event.
+        
         TryCatch try_catch;
         baton->callback->Call(Context::GetCurrent()->Global(), argc, argv);
         if (try_catch.HasCaught()) {
@@ -188,7 +169,7 @@ void RsaEncrypter::AfterEncryptAsync(uv_work_t* req)
         }
     }
 
-    // The callback is a permanent handle, so we have to dispose of it manually.
+    
     baton->callback.Dispose();
     delete baton;
   }
@@ -201,7 +182,7 @@ void RsaEncrypter::AfterEncryptAsync(uv_work_t* req)
         return ThrowException(Exception::TypeError(
             String::New("Third argument must be a callback function")));
     }
-    // There's no ToFunction(), use a Cast instead.
+    
     Local<Function> callback = Local<Function>::Cast(args[2]);
     
     v8::String::Utf8Value privateKey(args[0]->ToString());
@@ -211,7 +192,6 @@ void RsaEncrypter::AfterEncryptAsync(uv_work_t* req)
     unsigned char* buf = new unsigned char[len];
     DecodeWrite((char*)buf, len, args[1], BINARY);
     
-    // This creates our work request, including the libuv struct.
     Baton* baton = new Baton();
     baton->error = false;
     baton->privateKey=(char*)malloc(sizeof(char)*privateKey.length());
@@ -219,16 +199,9 @@ void RsaEncrypter::AfterEncryptAsync(uv_work_t* req)
     baton->mesgEncrypted=buf;
     strcpy(baton->privateKey,*privateKey);
 
-    //strcpy((char*)baton->mesgEncrypted,buf);
-    
-
-
     baton->request.data = baton;
     baton->callback = Persistent<Function>::New(callback);
 
-    // Schedule our work request with libuv. Here you can specify the functions
-    // that should be executed in the threadpool and back in the main thread
-    // after the threadpool function completed.
     int status = uv_queue_work(uv_default_loop(), &baton->request, DecryptAsyncWork, AfterDecryptAsync);
     assert(status == 0);
 
@@ -240,15 +213,10 @@ void RsaEncrypter::DecryptAsyncWork(uv_work_t* req)
   {
     Baton* baton = static_cast<Baton*>(req->data);
 
-    // Do work in threadpool here.
-    
     unsigned char* result=decrypt(baton->privateKey,baton->mesgEncrypted);
   
-    
-    
     baton->mesgDecrypted=result;
-    // If the work we do fails, set baton->error_message to the error string
-    // and baton->error to true.
+  
   }
 
 void RsaEncrypter::AfterDecryptAsync(uv_work_t* req)
@@ -259,27 +227,18 @@ void RsaEncrypter::AfterDecryptAsync(uv_work_t* req)
     if (baton->error) {
         Local<Value> err = Exception::Error(String::New(baton->error_message));
 
-        // Prepare the parameters for the callback function.
         const unsigned argc = 1;
         Local<Value> argv[argc] = { err };
 
-        // Wrap the callback function call in a TryCatch so that we can call
-        // node's FatalException afterwards. This makes it possible to catch
-        // the exception from JavaScript land using the
-        // process.on('uncaughtException') event.
         TryCatch try_catch;
         baton->callback->Call(Context::GetCurrent()->Global(), argc, argv);
         if (try_catch.HasCaught()) {
             node::FatalException(try_catch);
         }
     } else {
-        // In case the operation succeeded, convention is to pass null as the
-        // first argument before the result arguments.
-        // In case you produced more complex data, this is the place to convert
-        // your plain C++ data structures into JavaScript/V8 data structures.
         const unsigned argc = 2;
         int newsize=strlen((char*)baton->mesgDecrypted);
-        //printf("\nlos loso\n%s\n",baton->mesgDecrypted);
+
         Local<Value> outString;
 
         outString=Encode(baton->mesgDecrypted, newsize, BINARY);
@@ -288,10 +247,6 @@ void RsaEncrypter::AfterDecryptAsync(uv_work_t* req)
             outString
         };
 
-        // Wrap the callback function call in a TryCatch so that we can call
-        // node's FatalException afterwards. This makes it possible to catch
-        // the exception from JavaScript land using the
-        // process.on('uncaughtException') event.
         TryCatch try_catch;
         baton->callback->Call(Context::GetCurrent()->Global(), argc, argv);
         if (try_catch.HasCaught()) {
@@ -299,7 +254,7 @@ void RsaEncrypter::AfterDecryptAsync(uv_work_t* req)
         }
     }
 
-    // The callback is a permanent handle, so we have to dispose of it manually.
+
     baton->callback.Dispose();
     delete baton;
   }
@@ -320,7 +275,7 @@ unsigned char * RsaEncrypter::encrypt(char* publicKey, char * plainMesg,int &siz
 
   BIO_write(bmemPublic, publicKey, sizePublic);
 
-  //BIO_flush(bmemPublic);
+  
 
   rsaPublic=RSA_new();
 
@@ -353,7 +308,7 @@ unsigned char * RsaEncrypter::decrypt( char* privateKey, unsigned char * encrypt
 
 	bmemPrivate = BIO_new(BIO_s_mem());
 
-	//BIO_flush(bmemPrivate);
+	
 
 	size=strlen( privateKey);
 

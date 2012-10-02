@@ -1,27 +1,13 @@
-0.0.2 / 2012-10-02
+0.2.0 / 2012-10-02
 ==================
 
   * implementations:
-	* `always myapp.js`
-	* `always start myapp.js`
-	* `always --version`
-	* `always --help`
-	
-  * kill process before respawn
-  * restart on file edits
-  * restart on uncaughtException
-  * sweet spot for development usage.
+	* `Asyncronous methods to encrypting and decrypting with rsa`
 
-0.0.1 / 2012-09-23
+0.1.0 / 2012-09-23
 ==================
 
   * implementations:
-	* `always myapp.js`
-	* `always start myapp.js`
-	* `always --version`
-	* `always --help`
+	* `Syncronous methods to encrypting and decrypting with rsa`
 	
-  * kill process before respawn
-  * restart on file edits
-  * restart on uncaughtException
-  * sweet spot for development usage.
+  
