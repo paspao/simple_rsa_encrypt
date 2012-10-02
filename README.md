@@ -1,4 +1,5 @@
-# simple\_rsa\_encrypt -  - [![Build Status](https://secure.travis-ci.org/paspao/simple_rsa_encrypt.png)](http://travis-ci.org/paspao/simple_rsa_encrypt)
+# simple\_rsa\_encrypt 
+[![Build Status](https://secure.travis-ci.org/paspao/simple_rsa_encrypt.png)](http://travis-ci.org/paspao/simple_rsa_encrypt)
 
 This module provides access to RSA public-key encryption and  private-key decryption from OpenSSL.
 
