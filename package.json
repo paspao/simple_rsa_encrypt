@@ -1,6 +1,6 @@
 { "name" : "simple_rsa_encrypt"
-, "description" : "A simple rsa usage with public encryption and private dencryption"
-, "version" : "v0.1.0"
+, "description" : "A simple rsa usage with public encryption and private decryption"
+, "version" : "v0.2.0"
 , "homepage" : "https://github.com/paspao/simple_rsa_encrypt"
 ,"scripts" : {
       "preinstall" : "node-gyp configure && node-gyp build"
