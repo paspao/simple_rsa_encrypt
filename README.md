@@ -5,12 +5,15 @@ This module provides access to RSA public-key encryption and  private-key decryp
 
 ## Install
 
-	npm install simple_rsa_encrypt
-
+```bash
+$ npm install simple_rsa_encrypt
+```
 
 ## Build (from source)
 
-	node-gyp clean && node-gyp configure && node-gyp -v build
+```bash
+$ node-gyp clean && node-gyp configure && node-gyp build
+```
 
 ## Usage
 
