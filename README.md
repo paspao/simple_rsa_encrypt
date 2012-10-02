@@ -15,6 +15,7 @@ This module provides access to RSA public-key encryption and  private-key decryp
 ## Usage
 
 See test.js
+### Syncronous call
 
 ```javascript
 
@@ -53,8 +54,16 @@ tQMVsY0MsC8Sy21y199wWQUBmAiV6rSuODrb8yQmYZ8w\n\
 console.log("\nNode decrypted\n"+plainmesg);
 
 ```
+### Asyncrous call
 
 ```javascript
+
+var simple_rsa_encrypt = require("simple_rsa_encrypt");
+
+
+var rsa=new simple_rsa_encrypt.RsaEncrypter();
+
+var mesg="Ciao Mondo...ops...Hello World!";
 
 rsa.encrypt("-----BEGIN PUBLIC KEY-----\n\
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD0AFLLTkEOlTGvx9w/MEYr4Yji\n\
