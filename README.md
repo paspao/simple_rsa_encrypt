@@ -57,7 +57,7 @@ tQMVsY0MsC8Sy21y199wWQUBmAiV6rSuODrb8yQmYZ8w\n\
 console.log("\nNode decrypted\n"+plainmesg);
 
 ```
-### Asyncrous call
+### Asynchronous call
 
 ```javascript
 
